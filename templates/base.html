@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<head>
+    <title>{% block title %}海洋贝类智能识别系统{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/global.css')}}">
+    <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='images/LOGO.ico')}}">
+    {% block styles %}{% endblock %}
+    {% block head_scripts %}{% endblock %}
+</head>
+
+<body oncontextmenu=self.event.returnValue=false onselectstart="return false">
+    <div class="box0">
+        <a><img src="{{url_for('static',filename='images/LOGO.ico')}}" align="center" width=45.6px height=42.65px></a>
+        <h1>海&nbsp;洋&nbsp;贝&nbsp;类&nbsp;智&nbsp;能&nbsp;识&nbsp;别&nbsp;系&nbsp;统</h1>
+    </div>
+    
+    {% block content %}{% endblock %}
+    
+    {% block footer_scripts %}{% endblock %}
+</body>
+</html> 

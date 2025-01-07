@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}图片展示{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>图片展示</h1>
+    {% if image_path %}
+        <div class="image-display">
+            <img src="{{ url_for('static', filename=image_path) }}" alt="显示图片">
+        </div>
+
+        <div class="results-container">
+            <h2>识别结果：</h2>
+            {% if image_info and sub_results %}
+                {% for info ,f in image_info|zip(sub_results) %}
+                    <div class="result-item">
+                         <img src="{{ url_for('static', filename=base_path+f) }}" alt="显示图片">
+                        <p>{{ info }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>暂无识别结果</p>
+                {# 调试信息 #}
+                <p>image_info: {{ image_info }}</p>
+                <p>sub_results: {{ sub_results }}</p>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>未找到图片或图片加载失败</p>
+        <p>image_info: {{ image_info }}{{image_path}}</p>
+    <p>sub_results: {{ sub_results }}</p>
+    {% endif %}
+</div>
+<style>
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.image-display img {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+}
+
+.results-container {
+    margin-top: 20px;
+}
+
+.result-item {
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+</style>
+{% endblock %}

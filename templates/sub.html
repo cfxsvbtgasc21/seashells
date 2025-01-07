@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<style>
+    .upload-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        max-width: 800px;
+        margin: 20px auto;
+    }
+
+    .upload-form {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    .custom-file-upload {
+        border: 2px solid #4CAF50;
+        display: inline-block;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        color: #4CAF50;
+        margin-right: 10px;
+        transition: all 0.3s;
+    }
+
+    .custom-file-upload:hover {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    .preview-container {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    #imagePreview {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 8px;
+        display: none;
+    }
+
+    .message {
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+    }
+
+    .error {
+        background-color: #ffebee;
+        color: #c62828;
+    }
+
+    .success {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+    <h1>图片上传预览</h1>
+    <div class="upload-form">
+        <form method="post" enctype="multipart/form-data" id="uploadForm">
+            <label class="custom-file-upload">
+                <input type="file" name="image" id="imageInput" accept="image/jpeg, image/png" onchange="previewImage()">
+                选择图片
+            </label>
+            <input type="submit" value="上传">
+        </form>
+    </div>
+    <div id="messageBox" class="message"></div>
+    <div class="preview-container">
+        <img id="imagePreview" src="" alt="图片预览">
+    </div>
+</div>
+{% endblock %}
+
+{% block footer_scripts %}
+<script>
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
+    function showMessage(message, isError = false) {
+        const messageBox = document.getElementById('messageBox');
+        messageBox.textContent = message;
+        messageBox.style.display = 'block';
+        messageBox.className = `message ${isError ? 'error' : 'success'}`;
+    }
+
+    function previewImage() {
+        const preview = document.getElementById('imagePreview');
+        const file = document.getElementById('imageInput').files[0];
+        
+        if (file) {
+            if (file.size > MAX_FILE_SIZE) {
+                showMessage('文件大小不能超过5MB', true);
+                document.getElementById('imageInput').value = '';
+                preview.style.display = 'none';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                preview.src = reader.result;
+                preview.style.display = 'inline-block';
+                showMessage('图片已选择，可以上传');
+            }
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+            preview.style.display = 'none';
+            showMessage('请选择图片', true);
+        }
+    }
+
+    document.getElementById('uploadForm').onsubmit = function(e) {
+        const file = document.getElementById('imageInput').files[0];
+        if (!file) {
+            e.preventDefault();
+            showMessage('请先选择图片', true);
+            return false;
+        }
+        showMessage('正在上传...');
+    }
+</script>
+{% endblock %}
