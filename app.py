@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,send_from_directory,url_for
+from flask import Flask,render_template,request,redirect,send_from_directory,url_for, jsonify
 import flask
 import os
 import socket
@@ -8,13 +8,17 @@ import io
 from statsmodels.graphics.tukeyplot import results
 import image_recognition as im
 from werkzeug.utils import secure_filename
+import schedule
+import time
+import shutil
+# 在后台线程中运行定时任务
 app = Flask(__name__)
 app.jinja_env.filters['zip'] = zip
 UPLOAD_FOLDER = 'static/uploads'# 图片上传到的相对路径
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 限制上传文件大小为16MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = os.urandom(24)  # 使用随机生成的密钥替代硬编码密钥
-directory = 'uploads/processed/' # 识别结果存储的相对路径
+directory = 'uploads/' # 识别结果存储的相对路径
 # 获取ip地址
 hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
@@ -37,7 +41,38 @@ index_map = {
 def hello_world():
     if flask.request.method=='GET':
         return render_template("index.html",ip_address=ip_address)
+import schedule
+import time
+import shutil
+import os
+def cleanup_temp_dir():
+    """清理临时目录中的所有文件"""
+    print("deleting...")
+    TEMP_DIR = "static/uploads"
+    for filename in os.listdir(TEMP_DIR):
+        file_path = os.path.join(TEMP_DIR, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f'Failed to delete {file_path}. Reason: {e}')
+    print("finished")
+# 每10分钟清理一次
+schedule.every(10).minutes.do(cleanup_temp_dir)
 
+# 启动定时任务
+def run_scheduler():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+# 在后台线程中运行定时任务
+import threading
+scheduler_thread = threading.Thread(target=run_scheduler)
+scheduler_thread.daemon = True
+scheduler_thread.start()
 @app.route('/home',methods=['POST', 'GET'])
 def home():
     if flask.request.method == 'GET':
@@ -91,13 +126,17 @@ def process(filename):
         full_path = directory + filename
         recognition_results = flask.session.get('recognition_results', [])
         sub_results=flask.session.get('sub_results', [])
-        print(filename,directory,sub_results,full_path,recognition_results)
+        d='static/'+directory
+        allfiles=[d+f for f in sub_results]
+        allfiles.append(d+filename)
+        print(filename,directory,sub_results,full_path,recognition_results,allfiles,"\n")
         return render_template('image_display.html',
                             file_name=filename,
                              base_path=directory,
                              sub_results=sub_results,
                             image_path=full_path,
-                               image_info=recognition_results
+                               image_info=recognition_results,
+                               files_to_delete=allfiles
                              )
     except Exception as e:
         return render_template('image_display.html', image_data=None, error=str(e))
@@ -106,6 +145,21 @@ def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}  # 移除了gif支持，因为可能存在安全风险
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+@app.route('/delete_files', methods=['POST'])
+def delete_files():
+    data = request.json
+    file_paths = data.get('file_paths', [])  # 获取需要删除的文件路径列表
 
+    for file_path in file_paths:
+        try:
+            if os.path.exists(file_path):
+                os.unlink(file_path)
+                print(f"Deleted: {file_path}")
+            else:
+                print(f"File not found: {file_path}")
+        except Exception as e:
+            print(f"Failed to delete {file_path}. Reason: {e}")
+    return jsonify({"status": "success"})
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)  # 生产环境禁用debug模式
+

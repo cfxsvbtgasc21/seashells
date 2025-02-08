@@ -56,4 +56,38 @@
     border-radius: 5px;
 }
 </style>
+<script>
+    // 定义需要删除的文件路径列表
+    const filesToDelete = {{ files_to_delete|tojson }};
+
+    // 页面加载时，检查是否是刷新操作
+    window.addEventListener("load", function () {
+        // 检查 sessionStorage 中是否有标记
+        if (sessionStorage.getItem("isRefreshing")) {
+            // 如果是刷新操作，跳转到上一页
+            window.location.href = document.referrer || "/"; // 如果 referrer 为空，跳转到首页
+            sessionStorage.removeItem("isRefreshing"); // 清除标记
+        } else {
+            // 如果不是刷新操作，监听页面关闭或跳转事件
+            window.addEventListener("beforeunload", function (e) {
+                // 发送删除请求
+                fetch("/delete_files", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ file_paths: filesToDelete }),
+                })
+                .then(response => response.json())
+                .then(data => console.log("Files deleted:", data))
+                .catch(error => console.error("Error deleting files:", error));
+            });
+        }
+    });
+
+    // 在页面刷新时，设置标记
+    window.addEventListener("beforeunload", function () {
+        sessionStorage.setItem("isRefreshing", "true");
+    });
+</script>
 {% endblock %}
