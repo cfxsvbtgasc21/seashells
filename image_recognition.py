@@ -8,7 +8,7 @@ def image_rec(path):
     results = model.predict(source=path, save=True, project='runs/detect',
                             name='exp')
     yolov8_results_dir = 'runs/detect/exp'
-    base_save_path = r'E:\Py_project\recognition_system\static\uploads'
+    base_save_path = r'G:\seashells_rec_sys\s\static\processed'
     move_results.save_yolov8_results(Path(yolov8_results_dir), base_save_path)
     return results
 

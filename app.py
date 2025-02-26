@@ -14,7 +14,7 @@ import shutil
 # 在后台线程中运行定时任务
 app = Flask(__name__)
 app.jinja_env.filters['zip'] = zip
-UPLOAD_FOLDER = 'static/uploads'# 图片上传到的相对路径
+UPLOAD_FOLDER = 'static/uploads'# 原始图片上传到的相对路径
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 限制上传文件大小为16MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = os.urandom(24)  # 使用随机生成的密钥替代硬编码密钥
