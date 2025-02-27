@@ -8,7 +8,7 @@ def image_rec(path):
     results = model.predict(source=path, save=True, project='runs/detect',
                             name='exp')
     yolov8_results_dir = 'runs/detect/exp'
-    base_save_path = r'G:\seashells_rec_sys\s\static\processed'
+    base_save_path = r'uploads'
     move_results.save_yolov8_results(Path(yolov8_results_dir), base_save_path)
     return results
 
@@ -18,7 +18,6 @@ def get_subimage(results, path, save_path, filename):
         boxes = result.boxes.xyxy  # 边界框坐标
         image_path = path
         image = Image.open(image_path)
-
         for box_index, box in enumerate(boxes):
             x1, y1, x2, y2 = map(int, box)
             # 裁剪图像区域

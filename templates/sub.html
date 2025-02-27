@@ -165,7 +165,7 @@
     function previewImage() {
         const preview = document.getElementById('imagePreview');
         const file = document.getElementById('imageInput').files[0];
-        
+
         if (file) {
             if (file.size > MAX_FILE_SIZE) {
                 showMessage('文件大小不能超过5MB', true);

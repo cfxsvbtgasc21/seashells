@@ -28,29 +28,5 @@ if __name__ == '__main__':
         scores = result.boxes.conf  # 置信度分数
         classes = result.boxes.cls  # 类别索引
         class_names = [index_map[int(cls)] for cls in classes]
-
         for box, score, class_name in zip(boxes, scores, class_names):
             print(f"Class: {class_name}, Score: {score:.2f}, Box: {box}")
-
-        # annotated_img = result.plot()
-
-        # 显示图像
-        #cv2.imshow('Detected Image', annotated_img)
-        #cv2.waitKey(0)
-        #cv2.destroyAllWindows()
-        # print(result.boxes.cls)
-        # print(index_map[result.boxes.cls])
-    # print(results)
-    # 对单个图像进行预测并保存结果
-    # im1 = Image.open("bus.jpg")
-    # results = model.predict(source=im1, save=True)  # save plotted images
-
-    # get_save_dir()里改生成的识别图片路径 Path对象
-
-    # 对图像数组进行预测
-
-    # im2 = cv2.imread("bus.jpg")
-    # results = model.predict(source=[im1, im2], save=True, save_txt=True)  # 保存预测图像和标签
-
-    # 对视频或实时摄像头进行预测
-    # results = model.predict(source="0")  # 0 代表摄像头
