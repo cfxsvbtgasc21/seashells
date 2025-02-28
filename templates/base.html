@@ -16,7 +16,13 @@
     <div class="box0">
         <a  href="./index.html"><img src="{{url_for('static',filename='images/LOGO.ico')}}" align="center" width=45.6px height=42.65px></a>
         <a  href="./index.html"><p1>海&nbsp;洋&nbsp;贝&nbsp;类&nbsp;智&nbsp;能&nbsp;识&nbsp;别&nbsp;系&nbsp;统</p1></a>
-        <a  href="./login.html" ><p4>登&nbsp;&nbsp;录</p4></a>
+		{% if user %}
+    		<p4>{{ user.username }}</p4>
+		{% else %}
+    	<a href="{{ url_for('Log.login') }}">
+        <p4>登&nbsp;&nbsp;录</p4>
+   		 </a>
+		{% endif %}
     </div>
     <div class="box3">
 		<img src="{{url_for('static',filename='images/0.png')}}" width=170px height=50px>

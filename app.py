@@ -1,14 +1,22 @@
-from flask import Flask, render_template
-import socket
+from flask import Flask, render_template, g, session
+
+from exts import db
+from models import User
+from flask_migrate import Migrate
+from recognition import rec
 from log import Log
 import threading
+import config
 import schedule
 import time
 import shutil
 import os
 # 在后台线程中运行定时任务
 app = Flask(__name__)
-from recognition import rec
+app.config.from_object(config)
+db.init_app(app)
+migrate = Migrate(app, db)
+
 app.register_blueprint(rec, url_prefix='/rec')
 app.register_blueprint(Log, url_prefix='/log')  # 为Log模块添加前缀
 UPLOAD_FOLDER = 'static/uploads'# 原始图片上传到的相对路径
@@ -18,8 +26,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = os.urandom(24)  # 使用随机生成的密钥替代硬编码密钥
 directory = 'uploads/' # 识别结果存储的相对路径
 # 获取ip地址
-hostname = socket.gethostname()
-ip_address = socket.gethostbyname(hostname)
 app.secret_key = 'your_secret_key_here'
 index_map = {
     0: "鲍鱼",
@@ -63,6 +69,19 @@ def run_scheduler():
 scheduler_thread = threading.Thread(target=run_scheduler)
 scheduler_thread.daemon = True
 scheduler_thread.start()
+# @app.before_request
+# def before_request():
+#     # user_id = session.get('user_id')
+#     user_id=User.query.get(123).id
+#     print(user_id)
+#     if user_id:
+#         user = User.query.get(int(user_id))
+#         setattr(g, 'user', user)
+#     else:
+#         g.user = None
+# @app.context_processor
+# def my_context_processor():
+#     return {"user":getattr(g, 'user', None) }
 @app.route('/', methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
