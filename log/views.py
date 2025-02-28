@@ -8,4 +8,8 @@ def login():
 
 @Log.route('/logout')
 def logout():
-    return "登出页面"
+    print("登出页面")
+    return render_template('login.html')
+@ Log.route('/register')
+def register():
+    return render_template('register.html')

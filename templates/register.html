@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}用户注册{% endblock %}
+{% block content %}
+<div class="rg_layout">
+    <div class="rg_left">
+        <p>USER REGISTER</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新用户注册</p>
+    </div>
+    <div class="rg_center">
+        <div class="rg_form">
+            <form action="#" id="form" method="post" onsubmit="return true">
+                <table>
+                    <tr>
+                       <td class="td_left"><label for="username">用户名</label></td>
+                        <td class="td_right">
+                            <!-- onblur监听用户输入的值 -->
+                            <input type="text" name="username" id="username" placeholder="请输入用户名" onblur="checkUsername(this.value)">
+                            <!--<span id="s_username" class="error"></span>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label for="password">密码</label></td>
+                        <td class="td_right">
+							<span class="box">
+								<input type="password" name="password" id="password" placeholder="请输入密码"  >
+								<label for="password">
+								<!--<img src="{{url_for('static',filename='images/close.png')}}" alt="" id= "eye1">-->
+								</label>
+							</span>
+							<!--<span id="s_password" class="error"></span>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label for="password2">请确认密码</label></td>
+                        <td class="td_right">
+							<span class="box">
+								<input type="password" name="password2" id="password2" placeholder="请再次输入密码" >
+								<label for="password2">
+								<!--<img src="{{url_for('static',filename='images/close.png')}}" alt="" id= "eye2">-->
+								</label>
+							</span>
+                            <!--<span id="s_password2" class="error"></span>-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label for="email">电子邮箱</label></td>
+                        <td class="td_right"><input type="text" name="email" id="email" placeholder="请输入邮箱">
+                        <!--<span id="test_email" class="error"></span>-->
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label for="email-code">邮箱验证码</label></td>
+                        <td class="td_right"><input type="text" name="email-code" id="email-code" placeholder="请输入邮箱验证码">
+                         <!--<span id="test_email_code" class="error"></span>-->
+                         <button id="btn_subss">发送验证码</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label>性别</label></td>
+                        <td class="td_right">
+                            <input type="radio" name="gender" value="male" checked> 男
+                            <input type="radio" name="gender" value="female"> 女
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label for="birthday">出生日期</label></td>
+                        <td class="td_right"><input type="date" name="birthday" id="birthday" placeholder="请输入出生日期"></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label >个人简介</label></td>
+                        <td class="td_right"><textarea type="comment" rows="5" cols="35" style="resize:none"  name="comment" id="comment" placeholder="请输入个人简介"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left"><label for="checkcode" >验证码</label></td>
+                        <td class="td_right"><input type="text" name="checkcode" id="checkcode" placeholder="请输入验证码" >
+                        <img id="img_check" src="{{url_for('static',filename='images/code.png')}}">
+                        <!--<span class="error" id="code_input">-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="td_sub">
+                          <input type="submit" id="btn_sub" value="注 册" onclick="checkform();"> 
+                          <input type="reset" id="btn_subs" value="重 置">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <p class="para">已有账号？<a href="/log/login">立即登录</a></p>
+    </div>
+</div>
+{% endblock %}

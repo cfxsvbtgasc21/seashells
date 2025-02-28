@@ -2,10 +2,10 @@
 {% block title %}登陆系统{% endblock %}
 {% block content %}
 <div class="login-form">
-        <h2>登&nbsp;&nbsp;陆&nbsp;&nbsp;系&nbsp;&nbsp;统</h2>
+        <h2>用&nbsp;户&nbsp;登&nbsp;录</h2>
         <form action="/login" method="post"> <!-- 更改为实际的提交地址 -->
             <div class="form-group">
-                <label for="username">用户名/手机号/邮箱</label>
+                <label for="username">用户名/邮箱号</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
@@ -16,7 +16,7 @@
                 <button type="submit">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
             </div>
             <div class="form-group">
-                <p4 color="white" text-align="center">没有账号？去<a  href="./register.html" >注册</a></p4>
+                <h4>没有账号？<a  href="./register" >立即注册</a></h4>
             </div>
             <!--<div class="form-group">
                 <button type="register">注&nbsp;&nbsp;&nbsp;&nbsp;册</button>
