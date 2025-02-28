@@ -24,7 +24,7 @@ index_map = {
 @rec.route('/', methods=['POST', 'GET'])
 def hello_world():
     if flask.request.method == 'GET':
-        return render_template("index.html")
+        return render_template("login.html")
 @rec.route('/sub', methods=['POST', 'GET'], endpoint='sub')
 def red():
     return redirect(url_for('rec.home'))

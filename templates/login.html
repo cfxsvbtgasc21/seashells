@@ -1,63 +1,26 @@
 {% extends "base.html" %}
-{% block styles %}
-<style>
-        body {
-            font-family: Arial, sans-serif;
-			margin:200px 0;
-        }
-        .login-form {
-            width: 300px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .login-form h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .login-form .form-group {
-            margin-bottom: 15px;
-        }
-        .login-form .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .login-form .form-group input {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .login-form .form-group button {
-            width: 100%;
-            padding: 10px;
-            background-color: #5cb85c;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-        .login-form .form-group button:hover {
-            background-color: #4cae4c;
-        }
-    </style>
-{% endblock %}
+{% block title %}登陆系统{% endblock %}
 {% block content %}
-<div class="box1">
-	</div>
 <div class="login-form">
-        <h2>登陆系统</h2>
+        <h2>登&nbsp;&nbsp;陆&nbsp;&nbsp;系&nbsp;&nbsp;统</h2>
         <form action="/login" method="post"> <!-- 更改为实际的提交地址 -->
             <div class="form-group">
-                <label for="username">用户名</label>
+                <label for="username">用户名/手机号/邮箱</label>
                 <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
-                <label for="password">密&nbsp;&nbsp;&nbsp;码</label>
+                <label for="password">密码</label>
                 <input type="password" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <button type="submit">登录</button>
+                <button type="submit">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
             </div>
+            <div class="form-group">
+                <p4 color="white" text-align="center">没有账号？去<a  href="./register.html" >注册</a></p4>
+            </div>
+            <!--<div class="form-group">
+                <button type="register">注&nbsp;&nbsp;&nbsp;&nbsp;册</button>
+            </div>-->
         </form>
-    </div>
+</div>
 {% endblock %}

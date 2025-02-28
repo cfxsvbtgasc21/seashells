@@ -65,7 +65,7 @@ scheduler_thread.daemon = True
 scheduler_thread.start()
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    return render_template('login.html')
+    return render_template('index.html')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)  # 生产环境禁用debug模式
 
