@@ -1,6 +1,8 @@
-from flask import Flask, render_template, g, session
-
-from exts import db
+from datetime import timedelta
+import random
+from flask import Flask, render_template, g, session, redirect, url_for, request, jsonify
+import flask
+from exts import db,mail
 from models import User
 from flask_migrate import Migrate
 from recognition import rec
@@ -11,19 +13,28 @@ import schedule
 import time
 import shutil
 import os
+import redis
 # 在后台线程中运行定时任务
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.urandom(24)  # 使用随机生成的密钥替代硬编码密钥
+# app.redis = redis.Redis(
+#     host='localhost',
+#     port=6379,
+#     db=0,
+#     decode_responses=True
+# )
+
 app.config.from_object(config)
 db.init_app(app)
+mail.init_app(app)
 migrate = Migrate(app, db)
-
+# flask.session['email_code'] = '1234'
 app.register_blueprint(rec, url_prefix='/rec')
 app.register_blueprint(Log, url_prefix='/log')  # 为Log模块添加前缀
 UPLOAD_FOLDER = 'static/uploads'# 原始图片上传到的相对路径
 app.jinja_env.filters['zip'] = zip
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 限制上传文件大小为16MB
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['SECRET_KEY'] = os.urandom(24)  # 使用随机生成的密钥替代硬编码密钥
 directory = 'uploads/' # 识别结果存储的相对路径
 # 获取ip地址
 app.secret_key = 'your_secret_key_here'
@@ -69,22 +80,21 @@ def run_scheduler():
 scheduler_thread = threading.Thread(target=run_scheduler)
 scheduler_thread.daemon = True
 scheduler_thread.start()
-# @app.before_request
-# def before_request():
-#     # user_id = session.get('user_id')
-#     user_id=User.query.get(123).id
-#     print(user_id)
-#     if user_id:
-#         user = User.query.get(int(user_id))
-#         setattr(g, 'user', user)
-#     else:
-#         g.user = None
-# @app.context_processor
-# def my_context_processor():
-#     return {"user":getattr(g, 'user', None) }
+@app.before_request
+def before_request():
+    user_id = session.get('user_id')
+    if user_id:
+        user = User.query.get(int(user_id))
+        setattr(g, 'user', user)
+    else:
+        g.user = None
+@app.context_processor
+def my_context_processor():
+    return {"user":getattr(g, 'user', None) }
 @app.route('/', methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
+    # return render_template('register.html')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)  # 生产环境禁用debug模式
 

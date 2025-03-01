@@ -27,7 +27,7 @@ window.addEventListener("beforeunload", function () {
 });
 
 
-/*from register.html*/
+    //from register.html
 	// js正则验证相关字符的意义
 	// 1.  /^$/ 这个是个通用的格式。
 	// ^ 匹配输入字符串的开始位置；$匹配输入字符串的结束位置
@@ -36,17 +36,17 @@ window.addEventListener("beforeunload", function () {
     // + 匹配前面的子表达式一次或多次；
     // ？匹配前面的子表达式零次或一次；
     // \d  匹配一个数字字符，等价于[0-9]
-/*        window.onload = function(){
+        window.onload = function(){
         document.getElementById("form").onsubmit = function(){
                 return checkUsername() && checkPassword() && checkPassword2() && mailbox() && checkMobilePhone() && imgCode();
         };
             document.getElementById("username").onblur = checkUsername;
             document.getElementById("password").onblur = checkPassword;
             document.getElementById("password2").onblur = checkPassword2;
-            document.getElementById("email").onblur = mailbox; 
-            document.getElementById("telphone").onblur = checkMobilePhone; 
-             document.getElementById("checkcode").onblur = imgCode; 
-        }            
+            document.getElementById("email").onblur = mailbox;
+            document.getElementById("telphone").onblur = checkMobilePhone;
+             document.getElementById("checkcode").onblur = imgCode;
+        }
         function checkUsername(){
             //固定六位到十位字符用户名包含大小写字母与数字的组合
             var username = document.getElementById("username").value;
@@ -60,9 +60,9 @@ window.addEventListener("beforeunload", function () {
                 s_username.innerHTML = "用户名格式有误";
                 return false;
             }
-            
+
         }
-		
+
         function checkPassword(){
             //固定六位到十位字符密码包含大小写字母与数字的组合，当然你也可以改变正则方式，详情可见https://www.jb51.net/article/115170.htm
             var password = document.getElementById("password").value;
@@ -95,7 +95,7 @@ window.addEventListener("beforeunload", function () {
 
         function mailbox(){
         //定义正则表达式的变量:邮箱正则邮箱地址 必须由 大小写字母 或 数字 或下划线开头，其后可以跟上任意的 \w字符 和 中划线 加号 英文句号 @ 跟上任意的 \w字符 和 中划线(-) 加号 英文句号(.)
-        var email =document.getElementById("email").value; 
+        var email =document.getElementById("email").value;
         var emailReg=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
          var flag = emailReg.test(email);
          var test_email = document.getElementById("test_email");
@@ -107,12 +107,12 @@ window.addEventListener("beforeunload", function () {
              test_email.innerHTML = "邮箱格式有误";
               return false;
         }
-     }   
+     }
         function checkMobilePhone() {
              //定义正则表达式的变量:1.手机号正则，/^[1][3,4,5,6,7,8,9][0-9]{9}$/ //2.电话号码正则：/^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/
              //手机号正则表达式的意思是：以1为开头,第二位可为3,4,5,6,7,8,9,中的任意一位,最后以0-9的9个整数结尾。
              //电话号码正则,你懂的就是区号加后面几位用户号码
-        var telphone = document.getElementById("telphone").value; 
+        var telphone = document.getElementById("telphone").value;
         var phoneReg= /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
         var flag = phoneReg.test(telphone);
         var mobile_input = document.getElementById("mobile_input");
@@ -124,7 +124,7 @@ window.addEventListener("beforeunload", function () {
              mobile_input.innerHTML = "电话号码格式有误";
              return false;
         }
-        }   
+        }
 
          function imgCode(){
             //为了偷懒，写了个固定的验证码，验证码可以是动态改变，也可以静态更换，静态的利用js，用一个数组将验证码图片存起来//当用户点击更换验证码图片时，触发onclick事件更新验证码，用户可输入不同的验证码进行登录，但这样账号的安全性极其//的低(毕竟是前端验证🤣🤣🤣)

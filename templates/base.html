@@ -18,6 +18,7 @@
         <a  href="./index.html"><p1>海&nbsp;洋&nbsp;贝&nbsp;类&nbsp;智&nbsp;能&nbsp;识&nbsp;别&nbsp;系&nbsp;统</p1></a>
 		{% if user %}
     		<p4>{{ user.username }}</p4>
+			<a href="{{ url_for('Log.logout') }}"><p4>退&nbsp;&nbsp;出</p4></a>
 		{% else %}
     	<a href="{{ url_for('Log.login') }}">
         <p4>登&nbsp;&nbsp;录</p4>
