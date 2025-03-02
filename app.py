@@ -7,6 +7,7 @@ from models import User
 from flask_migrate import Migrate
 from recognition import rec
 from log import Log
+from blog import blog
 import threading
 import config
 import schedule
@@ -31,6 +32,8 @@ migrate = Migrate(app, db)
 # flask.session['email_code'] = '1234'
 app.register_blueprint(rec, url_prefix='/rec')
 app.register_blueprint(Log, url_prefix='/log')  # 为Log模块添加前缀
+app.register_blueprint(blog, url_prefix='/blog')
+
 UPLOAD_FOLDER = 'static/uploads'# 原始图片上传到的相对路径
 app.jinja_env.filters['zip'] = zip
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 限制上传文件大小为16MB

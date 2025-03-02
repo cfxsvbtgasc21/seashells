@@ -9,6 +9,7 @@ from flask_wtf.csrf import generate_csrf
 import random
 from exts import db,mail
 from flask_mail import Message
+
 CAPTCHA_CODE = '1234'
 @Log.route('/login', methods=['GET', 'POST'])
 def login():
@@ -58,7 +59,8 @@ def register():
             # 存储验证码（有效期5分钟）
             flask.session['code'] = code
             flask.session['code_timestamp'] = datetime.now()
-
+            # msg=Message(subject="海洋贝类智能识别系统注册",recipients=[email],body=f"验证码:{code}")
+            # mail.send(msg)
             # 发送邮件（此处模拟打印到控制台）
             print(f'[模拟邮件] 验证码发送至 {email}: {code}')
             return jsonify(code=200, message='验证码已发送')

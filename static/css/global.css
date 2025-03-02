@@ -26,51 +26,138 @@ a {
 .box0 {
     width: 100%;
     height: 80px;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     position: fixed;
-    left: 0px;
-    top: 0px;
-    background-position: center center;
+    left: 0;
+    top: 0;
     background-color: #1E50A0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
+.logo-section {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+.forum-section {
+    margin: 0 30px;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
 
 .box0 p1 {
     font-size: 40px;
     opacity: 1;
     color: #FFFFFF;
     line-height: 100%;
-    left: 120px;
-    top: 20px;
-    position: fixed;
     font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
     font-weight: bold;
+    margin-left: 20px;
     text-decoration: none;
 }
 
 .box0 p4 {
     font-size: 20px;
-    opacity: 1;
     color: #FFFFFF;
-    line-height: 100%;
-    right: 50px;
-    top: 30px;
-    position: fixed;
     font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
     font-weight: normal;
+    margin: 0 10px;
     text-decoration: none;
+}
+
+
+.box0 .logout-btn {
+    font-size: 20px;
+    color: #FFFFFF;
+    font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+    margin-left: 10px;
+    transition: opacity 0.3s;
 }
 
 .box0 img {
     opacity: 1;
-    left: 40px;
-    top: 20px;
-    position: fixed;
+    margin-left: 10px;
     -webkit-user-drag: none;
     -moz-user-drag: none;
     -ms-user-drag: none;
     user-drag: none;
 }
+.forum-link {
+    font-size: 20px;
+    color: #FFFFFF;
+    font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+    transition: color 0.3s;
+    text-decoration: none;
+}
+
+.forum-link:hover {
+    color: #dddddd;
+    text-decoration: underline;
+}
+
+.forum-content {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 100px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* 发帖内容样式 */
+.post-content {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 100px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* 帖子列表样式 */
+.post-list {
+    margin-top: 20px;
+}
+
+.post-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.post-item h3 {
+    color: #32c832;
+    margin-bottom: 10px;
+}
+
+.post-item p {
+    color: white;
+}
+
+/* 发帖按钮样式 */
+.post-button {
+    background-color: #32c832;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.post-button:hover {
+    background-color: #29a629;
+}
+
 
 .box1 {
     margin: 0px;

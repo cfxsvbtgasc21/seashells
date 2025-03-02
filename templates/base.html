@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <head>
     <title>{% block title %}海洋贝类智能识别系统{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/global.css')}}">
@@ -14,41 +11,50 @@
 
 <body oncontextmenu=self.event.returnValue=false onselectstart="return false">
     <div class="box0">
-        <a  href="./index.html"><img src="{{url_for('static',filename='images/LOGO.ico')}}" align="center" width=45.6px height=42.65px></a>
-        <a  href="./index.html"><p1>海&nbsp;洋&nbsp;贝&nbsp;类&nbsp;智&nbsp;能&nbsp;识&nbsp;别&nbsp;系&nbsp;统</p1></a>
-		{% if user %}
-    		<p4>{{ user.username }}</p4>
-			<a href="{{ url_for('Log.logout') }}"><p4>退&nbsp;&nbsp;出</p4></a>
-		{% else %}
-    	<a href="{{ url_for('Log.login') }}">
-        <p4>登&nbsp;&nbsp;录</p4>
-   		 </a>
-		{% endif %}
+        <div class="logo-section">
+            <a href="{{ url_for('index') }}"><img src="{{url_for('static',filename='images/LOGO.ico')}}" align="center" width=45.6px height=42.65px></a>
+            <a href="{{ url_for('index') }}"><p1>海&nbsp;洋&nbsp;贝&nbsp;类&nbsp;智&nbsp;能&nbsp;识&nbsp;别&nbsp;系&nbsp;统</p1></a>
+        </div>
+
+        <div class="forum-section">
+            <a href="{{ url_for('blog.show_blog') }}" class="forum-link"><p4>论&nbsp;&nbsp;坛</p4></a>
+        </div>
+
+        <div class="user-section">
+            {% if user %}
+            <p4>{{ user.username }}</p4>
+            <a class="logout-btn" href="{{ url_for('Log.logout') }}">退&nbsp;&nbsp;出</a>
+            {% else %}
+            <a href="{{ url_for('Log.login') }}">
+                <p4>登&nbsp;&nbsp;录</p4>
+            </a>
+            {% endif %}
+        </div>
     </div>
     <div class="box3">
         <a href="./index.html">
-		<img src="{{url_for('static',filename='images/0.png')}}" width=170px height=50px>
+            <img src="{{url_for('static',filename='images/0.png')}}" width=170px height=50px>
         </a>
-		<a href="./1.html">
-			<img src="{{url_for('static',filename='images/1.png')}}" width=170px height=50px>
-		</a>
-		<a href="./2.html">
-			<img src="{{url_for('static',filename='images/2.png')}}" width=170px height=50px>
-		</a>
-		<a href="./3.html">
-			<img src="{{url_for('static',filename='images/3.png')}}" width=170px height=50px>
-		</a>
-	</div>
-	<div class="style10">
-		<a href="#top">
-			<img src="{{url_for('static',filename='images/top.png')}}" width=50px height=50px>
-		</a>
-	</div>
-	<div class="box5">
-		<h1>作者：廉文煜 高育骐 厚旭泰 陈劭涵（排名不分先后）</h1>
-	</div>
+        <a href="./1.html">
+            <img src="{{url_for('static',filename='images/1.png')}}" width=170px height=50px>
+        </a>
+        <a href="./2.html">
+            <img src="{{url_for('static',filename='images/2.png')}}" width=170px height=50px>
+        </a>
+        <a href="./3.html">
+            <img src="{{url_for('static',filename='images/3.png')}}" width=170px height=50px>
+        </a>
+    </div>
+    <div class="style10">
+        <a href="#top">
+            <img src="{{url_for('static',filename='images/top.png')}}" width=50px height=50px>
+        </a>
+    </div>
+    <div class="box5">
+        <h1>作者：廉文煜 高育骐 厚旭泰 陈劭涵（排名不分先后）</h1>
+    </div>
     {% block content %}{% endblock %}
-    
+
     {% block footer_scripts %}{% endblock %}
 </body>
-</html> 
+</html>
