@@ -12,7 +12,7 @@
         {% for post in posts %}
         <div class="post-item">
             <h3><a href="{{ url_for('blog.post_detail', post_id=post.id) }}" style="color: #32c832;">{{ post.title }}</a></h3>
-            <p>作者：{{ post.author }} &nbsp;&nbsp; 发布时间：{{ post.created_at.strftime('%Y-%m-%d') }}</p>
+            <p>作者：{{ post.author_name }} &nbsp;&nbsp; 发布时间：{{ post.created_at.strftime('%Y-%m-%d') }}</p>
             <p>{{ post.content }}</p>
         </div>
         {% endfor %}
@@ -21,7 +21,11 @@
         {% endif %}
     </div>
 
-    <!-- 发帖按钮 -->
-    <button class="post-button" onclick="location.href='{{ url_for('blog.post') }}';">发&nbsp;&nbsp;帖</button>
+<!-- 发帖按钮 -->
+{% if session.get('user_id') %}
+<button class="post-button" onclick="location.href='{{ url_for('blog.post') }}';">发&nbsp;&nbsp;帖</button>
+{% else %}
+<button class="post-button" style="color: red; cursor: not-allowed; opacity: 0.6;" onclick="location.href='{{ url_for('Log.login') }}';">登录后才可发帖</button>
+{% endif %}
 </div>
 {% endblock %}

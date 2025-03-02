@@ -3,7 +3,9 @@
 {% block content %}
 <div class="post-content">
     <h1 style="text-align: center; color: white;">发帖</h1>
-    <form action="#" method="post">
+    <form action="{{ url_for('blog.post') }}" method="post">
+        {{ form.hidden_tag() }}  <!-- 添加此行以包含 CSRF 隐藏字段 -->
+
         <div class="form-group">
             <label for="title">标题：</label>
             <input type="text" id="title" name="title" required>
