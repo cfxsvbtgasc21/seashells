@@ -21,15 +21,17 @@
         </div>
 
         <div class="user-section">
-            {% if user %}
-            <p4>{{ user.username }}</p4>
-            <a class="logout-btn" href="{{ url_for('Log.logout') }}">退&nbsp;&nbsp;出</a>
-            {% else %}
-            <a href="{{ url_for('Log.login') }}">
-                <p4>登&nbsp;&nbsp;录</p4>
-            </a>
-            {% endif %}
-        </div>
+    {% if user %}
+    <a href="{{ url_for('blog.user_posts', username=user.username) }}">
+        <p4>{{ user.username }}</p4>
+    </a>
+    <a class="logout-btn" href="{{ url_for('Log.logout') }}">退&nbsp;&nbsp;出</a>
+    {% else %}
+    <a href="{{ url_for('Log.login') }}">
+        <p4>登&nbsp;&nbsp;录</p4>
+    </a>
+    {% endif %}
+</div>
     </div>
     <div class="box3">
         <a href="./index.html">

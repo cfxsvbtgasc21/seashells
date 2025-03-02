@@ -1,10 +1,11 @@
 import flask
 from . import Log
 from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
-from .forms import RegisterForm,LoginForm
+from .forms import RegisterForm,LoginForm,PasswordResetForm,PasswordResetRequestForm
 from models import db, User
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+
+from datetime import datetime, timedelta, timezone
 from flask_wtf.csrf import generate_csrf
 import random
 from exts import db,mail
@@ -88,3 +89,66 @@ def register():
                 error_messages = '; '.join(['; '.join(errors) for errors in form.errors.values()])
                 print(error_messages)
                 return jsonify(code=400, message=error_messages)
+
+
+@Log.route('/password_reset', methods=['GET', 'POST'])
+def password_reset():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+        if user:
+            # 生成验证码
+            code = ''.join(random.choices('0123456789', k=6))
+            session['password_reset_code'] = code
+            session['password_reset_email'] = email
+            session['password_reset_code_expiration'] = datetime.now() + timedelta(minutes=5)
+            print(code)
+            # 发送验证码邮件
+            # msg = Message('密码重置验证码', recipients=[email])
+            # msg.body = f'您的验证码是：{code}，有效期为 5 分钟。'
+            # mail.send(msg)
+            flash('验证码已发送到您的邮箱，请在 5 分钟内完成验证。', 'success')
+            return redirect(url_for('Log.verify_code'))
+        else:
+            flash('邮箱不存在，请检查！', 'danger')
+    return render_template('password_reset.html')
+
+
+
+
+@Log.route('/verify_code', methods=['GET', 'POST'])
+def verify_code():
+    if request.method == 'POST':
+        code = request.form.get('code')
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        session_code = session.get('password_reset_code')
+        session_email = session.get('password_reset_email')
+        session_expiration = session.get('password_reset_code_expiration')
+
+        # 获取当前 UTC 时间
+        current_time = datetime.now(timezone.utc)
+
+        if session_expiration and current_time < session_expiration:
+            if code == session_code:
+                if password == confirm_password:
+                    user = User.query.filter_by(email=session_email).first()
+                    if user:
+                        # 更新密码
+                        user.password = generate_password_hash(password)
+                        db.session.commit()
+                        session.pop('password_reset_code', None)
+                        session.pop('password_reset_email', None)
+                        session.pop('password_reset_code_expiration', None)
+                        flash('密码重置成功，请登录。', 'success')
+                        return redirect(url_for('Log.login'))
+                    else:
+                        flash('用户不存在，请联系管理员。', 'danger')
+                else:
+                    flash('新密码与确认密码不一致！', 'danger')
+            else:
+                flash('验证码错误，请重新输入。', 'danger')
+        else:
+            flash('验证码已过期，请重新获取！', 'danger')
+    return render_template('verify_code.html')

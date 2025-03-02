@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}我的帖子 - 海洋贝类智能识别系统{% endblock %}
+
+{% block content %}
+<div class="box5">
+    <h1>我的帖子</h1>
+    {% if posts %}
+    <div class="posts-section">
+        {% for post in posts %}
+        <div class="post-item">
+            <h2>{{post.title}}</h2>
+            <p>作者：{{ post.author.username }}</p>
+            <p>创建时间：{{ post.created_at }}</p>
+            <p>内容：{{ post.content }}</p>
+            <div class="post-actions">
+                <form action="{{ url_for('blog.delete_post', post_id=post.id) }}" method="post">
+                    <button type="submit" onclick="return confirm('确定要删除这个帖子吗？')">删除</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-posts">
+        <p>您还没有发布任何帖子。</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

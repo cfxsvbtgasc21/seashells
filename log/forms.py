@@ -1,6 +1,7 @@
 import flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, DateField, RadioField, TextAreaField
+from wtforms import SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError
 from models import User
 from datetime import datetime
@@ -78,3 +79,18 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     username = StringField(validators=[DataRequired(message="用户名不能为空")])
     password = StringField(validators=[Length(min=8, max=20, message="密码格式错误！")])
+
+
+class PasswordResetRequestForm(FlaskForm):
+    email = StringField('邮箱地址', validators=[DataRequired(), Email()])
+    submit = SubmitField('重置密码')
+
+class PasswordResetForm(FlaskForm):
+    code = StringField('验证码', validators=[DataRequired(), Length(min=6, max=6)])
+    password = PasswordField('新密码', validators=[
+        DataRequired(message="密码不能为空"),
+        Length(min=8, max=20, message="密码长度8-20位"),
+        Regexp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$', message="密码需包含字母和数字")
+    ])
+    confirm_password = PasswordField('确认新密码', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('重置密码')

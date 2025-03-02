@@ -11,7 +11,7 @@ from exts import db,mail
 from flask_mail import Message
 from decorators import login_required
 from .forms import PostForm
-
+from flask_login import current_user
 
 # 从数据库中获取帖子数据
 # posts = Post.query.all()
@@ -47,11 +47,29 @@ def post():
     else:
         return render_template('post.html', form=form)
 
-# @blog.route('/submit_post', methods=['GET','POST'])
-# def submit_post():
-#     return redirect(url_for('blog.blog'))
-#
+
+@blog.route('/user_posts/<username>',methods=['GET', 'POST'])
+@login_required
+def user_posts(username):
+    # 查询当前用户发布的所有帖子
+    posts = Post.query.filter_by(author_name=username).all()
+    return render_template('user_posts.html', posts=posts)
+
+
+@blog.route('/delete_post/<int:post_id>', methods=['POST'])
+@login_required
+def delete_post(post_id):
+    # 查询帖子
+    post = Post.query.get_or_404(post_id)
+    # 检查用户是否有权限删除
+    if post.author != g.user:
+        return "您没有权限删除这个帖子", 403
+    # 删除帖子
+    db.session.delete(post)
+    db.session.commit()
+    return redirect(url_for('blog.user_posts',username=g.user.username))
+
 @blog.route('/post_detail', methods=['GET', 'POST'])
 def post_detail():
-    return "unknown details"
+    return "此功能预留"
 
