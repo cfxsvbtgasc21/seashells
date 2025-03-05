@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %}登陆系统{% endblock %}
+
 {% block content %}
 <div class="login-form">
     <h2>用&nbsp;户&nbsp;登&nbsp;录</h2>
-    <form action="#" method="post">
+    <form id="login-form" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
         <div class="form-group">
             <label for="username">用户名/邮箱号</label>
@@ -23,5 +24,43 @@
             </h4>
         </div>
     </form>
+
+    <div id="error-message" class="alert alert-error" style="display: none;"></div>
 </div>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const submitButton = document.querySelector('button[type="submit"]');
+        submitButton.disabled = true; // 禁用按钮，防止重复提交
+        submitButton.textContent = '登录中...';
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'error') {
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('error-message').textContent = data.message;
+                submitButton.disabled = false;
+                submitButton.textContent = '登&nbsp;&nbsp;&nbsp;&nbsp;录';
+            } else if (data.status === 'success') {
+                document.getElementById('error-message').style.display = 'none';
+                // 在这里可以执行登录后的操作，例如跳转到主页
+                window.location.href = '/';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('error-message').style.display = 'block';
+            document.getElementById('error-message').textContent = '发生了一个错误，请稍后再试。';
+            submitButton.disabled = false;
+            submitButton.textContent = '登    录';
+        });
+    });
+</script>
 {% endblock %}

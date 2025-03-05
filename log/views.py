@@ -25,13 +25,13 @@ def login():
             print(email, password)
             user = User.query.filter((User.email == email) | (User.username == email)).first()
             if not user:
-                return redirect(url_for("Log.login"))
+                return jsonify({'status': 'error', 'message': '用户名或密码错误'})
             if check_password_hash(user.password, password):
                 print("验证通过")
                 session['user_id'] = user.id
-                return redirect("/")
+                return jsonify({'status': 'success', 'message': '登录成功'})
             else:
-                return redirect(url_for("Log.login"))
+                return jsonify({'status': 'error', 'message': '用户名或密码错误'})
         else:
             print(form.errors)
             return redirect(url_for("Log.login"))
