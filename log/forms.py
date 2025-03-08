@@ -6,6 +6,7 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, Val
 from models import User
 from datetime import datetime
 import re
+import redis
 
 class RegisterForm(FlaskForm):
     # 字段名称必须与HTML中的name属性完全一致（包括大小写和短横线）
@@ -18,7 +19,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField(validators=[
         DataRequired(message="密码不能为空"),
         Length(min=8, max=20, message="密码长度8-20位"),
-        Regexp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$', message="密码需包含字母和数字")
+        Regexp(r'^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,20}$', message="密码需包含至少两种组合（字母、数字、字符）")
     ])
 
     password2 = PasswordField(validators=[
@@ -62,11 +63,20 @@ class RegisterForm(FlaskForm):
     def validate_email_code(self, field):
         user_code = field.data
         # 从 session 中获取之前发送的验证码
-        stored_code = flask.session.get('code')
-        # 验证码是否匹配
-        if user_code != stored_code:
-            print(1)
-            raise ValidationError('验证码错误或已过期')
+        with redis.Redis(host='192.168.43.169', port=6379, password='620302') as redis_client:
+            stored_captcha = redis_client.get(self.email.data)
+
+            print(stored_captcha,user_code)
+            if not stored_captcha:
+                raise ValidationError('验证码已过期')
+            else:
+                stored_captcha = stored_captcha.decode('utf-8')
+                if stored_captcha != self.email_code.data:
+                    raise ValidationError('验证码错误')
+    def validate_birthday(self, field):
+        now=datetime.now()
+        if now.date()<field.data:
+            raise ValidationError('生日设置非法')
     # 自定义验证方法
     def validate_username(self, field):
         if User.query.filter_by(username=field.data).first():

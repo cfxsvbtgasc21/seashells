@@ -41,7 +41,20 @@
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 429) {
+                // 处理 429 错误
+                const retryAfter = response.headers.get('Retry-After');
+                const errorMessage = `请求过于频繁，请稍后再试。`;
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('error-message').textContent = errorMessage;
+                submitButton.disabled = false;
+                submitButton.textContent = '登&nbsp;&nbsp;&nbsp;&nbsp;录';
+                return;
+            }
+
+            return response.json();
+        })
         .then(data => {
             if (data.status === 'error') {
                 document.getElementById('error-message').style.display = 'block';
@@ -54,13 +67,6 @@
                 window.location.href = '/';
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('error-message').style.display = 'block';
-            document.getElementById('error-message').textContent = '发生了一个错误，请稍后再试。';
-            submitButton.disabled = false;
-            submitButton.textContent = '登    录';
-        });
     });
 </script>
 {% endblock %}

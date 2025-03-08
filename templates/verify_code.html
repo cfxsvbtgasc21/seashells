@@ -4,7 +4,12 @@
 <div class="verify-code-form-container">
     <div class="verify-code-form">
         <h2>验证验证码</h2>
-        <form action="{{ url_for('Log.verify_code') }}" method="post">
+        <form id="verifyCodeForm">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <div class="form-group">
+                <label for="email">邮箱地址</label>
+                <input type="email" id="email" name="email" required>
+            </div>
             <div class="form-group">
                 <label for="code">验证码</label>
                 <input type="text" id="code" name="code" required>
@@ -26,4 +31,40 @@
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('verifyCodeForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const code = document.getElementById('code').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm_password').value;
+
+    // 创建 FormData 对象
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('code', code);
+    formData.append('password', password);
+    formData.append('confirm_password', confirmPassword);
+
+    fetch('/log/verify_code', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.code === 200) {
+            alert(data.message);
+            window.location.href = '{{ url_for('Log.login') }}';
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('服务器错误，请稍后再试');
+    });
+});
+</script>
 {% endblock %}

@@ -2,7 +2,7 @@ from datetime import timedelta
 import random
 from flask import Flask, render_template, g, session, redirect, url_for, request, jsonify
 import flask
-from exts import db,mail
+from exts import db,mail,limiter
 from models import User
 from flask_migrate import Migrate
 from recognition import rec
@@ -24,7 +24,7 @@ app.config['SECRET_KEY'] = os.urandom(24)  # 使用随机生成的密钥替代�
 #     db=0,
 #     decode_responses=True
 # )
-
+limiter.init_app(app)
 app.config.from_object(config)
 db.init_app(app)
 mail.init_app(app)

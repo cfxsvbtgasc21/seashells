@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}用户注册{% endblock %}
+
 {% block content %}
 <div class="rg_layout">
     <div class="rg_left">
@@ -8,13 +9,13 @@
     </div>
     <div class="rg_center">
         <div class="rg_form">
-            <form action="#" id="form" method="post" onsubmit="return true">
+            <form action="{{url_for('Log.login')}}" id="form" method="post" onsubmit="return checkform();">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                 <table>
                     <tr>
-                       <td class="td_left"><label for="username">用户名</label></td>
+                        <td class="td_left"><label for="username">用户名</label></td>
                         <td class="td_right">
-                            <input type="text" name="username" id="username" placeholder="请输入用户名" onblur="checkUsername(this.value)">
+                            <input type="text" name="username" id="username" placeholder="请输入用户名">
                         </td>
                     </tr>
                     <tr>
@@ -39,7 +40,7 @@
                         <td class="td_left"><label for="email-code">邮箱验证码</label></td>
                         <td class="td_right">
                             <input type="text" name="email-code" id="email-code" placeholder="请输入邮箱验证码">
-                            <button type="button" id="btn_subss" action="send-code">发送验证码</button>
+                            <button type="button" id="btn_subss">发送验证码</button>
                         </td>
                     </tr>
                     <tr>
@@ -70,45 +71,111 @@
                     </tr>
                     <tr>
                         <td colspan="2" id="td_sub">
-                            <input type="submit" id="btn_sub" value="注 册" onclick="checkform();">
+                            <input type="submit" id="btn_sub" value="注 册">
                             <input type="reset" id="btn_subs" value="重 置">
                         </td>
                     </tr>
                 </table>
             </form>
+            <p class="error-message" id="error-message" style="color: red; display: none;"></p>
+            <p class="para">已有账号？<a href="/log/login">立即登录</a></p>
         </div>
-        <p class="para">已有账号？<a href="/log/login">立即登录</a></p>
     </div>
 </div>
 
 <script>
-document.getElementById('btn_subss').addEventListener('click', function() {
-    const email = document.getElementById('email').value;
-    if (!email) {
-        alert('邮箱不能为空');
-        return;
+    let countdownTimer;
+    let secondsRemaining = 60;
+
+    // 发送验证码按钮点击事件
+    document.getElementById('btn_subss').addEventListener('click', function() {
+        const email = document.getElementById('email').value;
+        if (!email) {
+            showError('邮箱不能为空');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('email', email);
+
+        fetch('/log/register/send_code', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.code === 200) {
+                startCountdown();
+                showError(data.message); // 验证码发送成功
+            } else {
+                showError(data.message); // 显示错误信息
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError('验证码发送失败，请稍后再试');
+        });
+    });
+
+    // 表单提交事件
+    document.getElementById('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const submitButton = document.getElementById('btn_sub');
+        submitButton.disabled = true; // 禁用按钮，防止重复提交
+        submitButton.value = '注册中...';
+
+        fetch('/log/register', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.code === 200) {
+                // 注册成功，跳转到登录页面
+                window.location.href = '/log/login';
+            } else {
+                showError(data.message);
+                submitButton.disabled = false;
+                submitButton.value = '注 册';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showError('注册失败，请稍后再试');
+            submitButton.disabled = false;
+            submitButton.value = '注 册';
+        });
+    });
+
+    // 显示错误信息
+    function showError(message) {
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
     }
 
-    const formData = new FormData();
-    formData.append('action', 'send_code');
-    formData.append('email', email);
+    // 表单验证
+    function checkform() {
+        return false; // 阻止默认提交行为，使用 AJAX 提交
+    }
 
-    fetch('/log/register', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.code === 200) {
-            alert(data.message);  // 验证码发送成功
-        } else {
-            alert(data.message);  // 显示错误信息
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('验证码发送失败，请稍后再试');
-    });
-});
+    // 倒计时功能
+    function startCountdown() {
+        const btnSubss = document.getElementById('btn_subss');
+        btnSubss.disabled = true;
+        secondsRemaining = 60;
+        countdownTimer = setInterval(() => {
+            secondsRemaining--;
+            if (secondsRemaining <= 0) {
+                clearInterval(countdownTimer);
+                btnSubss.disabled = false;
+                btnSubss.textContent = '发送验证码';
+            } else {
+                btnSubss.textContent = `重新发送(${secondsRemaining})`;
+            }
+        }, 1000);
+    }
 </script>
 {% endblock %}
