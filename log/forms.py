@@ -73,6 +73,8 @@ class RegisterForm(FlaskForm):
                 stored_captcha = stored_captcha.decode('utf-8')
                 if stored_captcha != self.email_code.data:
                     raise ValidationError('验证码错误')
+                else:
+                    redis_client.delete(self.email.data)
     def validate_birthday(self, field):
         now=datetime.now()
         if now.date()<field.data:
@@ -92,15 +94,13 @@ class LoginForm(FlaskForm):
 
 
 class PasswordResetRequestForm(FlaskForm):
-    email = StringField('邮箱地址', validators=[DataRequired(), Email()])
-    submit = SubmitField('重置密码')
+    email = StringField('邮箱地址', validators=[DataRequired(message="邮箱不能为空"), Email(message="邮箱格式错误")])
 
 class PasswordResetForm(FlaskForm):
     code = StringField('验证码', validators=[DataRequired(), Length(min=6, max=6)])
     password = PasswordField('新密码', validators=[
         DataRequired(message="密码不能为空"),
         Length(min=8, max=20, message="密码长度8-20位"),
-        Regexp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$', message="密码需包含字母和数字")
+        Regexp(r'^(?=.*[A-Za-z])(?=.*[\d\W])[A-Za-z\d\W]{8,20}$', message="密码需包含至少两种组合（字母、数字、字符）")
     ])
     confirm_password = PasswordField('确认新密码', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('重置密码')

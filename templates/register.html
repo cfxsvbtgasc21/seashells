@@ -97,7 +97,8 @@
 
         const formData = new FormData();
         formData.append('email', email);
-
+         const csrfToken = document.querySelector('input[name="csrf_token"]').value;
+         formData.append('csrf_token', csrfToken);
         fetch('/log/register/send_code', {
             method: 'POST',
             body: formData
