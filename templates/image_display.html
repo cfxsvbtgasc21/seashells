@@ -41,16 +41,81 @@
                     </div>
                 {% endif %}
             </div>
+
+            <!-- 修改显示 api_message 的部分为按钮和流式加载区域 -->
+            <div class="api-message">
+                <h2 class="section-title">API 信息</h2>
+                <button id="fetchApiInfoBtn" class="btn">获取 API 信息</button>
+                <div id="loadingSpinner" class="loading-spinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div id="apiInfoContainer" class="message-card" style="white-space: pre-wrap;"></div>
+            </div>
+
         {% else %}
             <div class="error-message">
                 <i class="fas fa-exclamation-triangle"></i>
                 <p>未找到图片或图片加载失败</p>
                 <div class="debug-info">
-                    <p>image_info: {{ image_info }}{{image_path}}</p>
-                    <p>sub_results: {{ sub_results }}</p>s
+<!--                    <p>image_info: {{ image_info }}{{image_path}}</p>-->
+<!--                    <p>sub_results: {{ sub_results }}</p>-->
+                    <p>{{error}}</p>
                 </div>
             </div>
         {% endif %}
     </div>
 </div>
+
+<script>
+    document.getElementById('fetchApiInfoBtn').addEventListener('click', function() {
+        // 显示加载动画
+        document.getElementById('loadingSpinner').style.display = 'block';
+        document.getElementById('apiInfoContainer').innerHTML = '';
+
+        // 设置请求超时时间（例如：5000毫秒）
+        const timeout = setTimeout(() => {
+            document.getElementById('loadingSpinner').style.display = 'none';
+            document.getElementById('apiInfoContainer').innerHTML = '请求超时，请重试。';
+        }, 50000);
+
+        // 发送请求到后端
+        fetch('/rec/get_api_info')
+            .then(response => {
+                // 清除超时定时器
+                clearTimeout(timeout);
+
+                // 处理流式响应
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder('utf-8');
+                const apiInfoContainer = document.getElementById('apiInfoContainer');
+
+                return new ReadableStream({
+                    start(controller) {
+                        function push() {
+                            reader.read().then(({ done, value }) => {
+                                if (done) {
+                                    controller.close();
+                                    document.getElementById('loadingSpinner').style.display = 'none';
+                                    return;
+                                }
+                                const chunk = decoder.decode(value, { stream: true });
+                                controller.enqueue(chunk);
+                                apiInfoContainer.innerHTML += chunk;
+                                push();
+                            });
+                        }
+                        push();
+                    }
+                }).getReader();
+            })
+            .catch(error => {
+                clearTimeout(timeout);
+                console.error('Error:', error);
+                document.getElementById('apiInfoContainer').innerHTML = '获取 API 信息失败，请重试。';
+                document.getElementById('loadingSpinner').style.display = 'none';
+            });
+    });
+</script>
 {% endblock %}

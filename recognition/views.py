@@ -1,8 +1,11 @@
-from flask import Flask, render_template, request, redirect, send_from_directory, url_for, jsonify
+from flask import Flask, render_template, request, redirect, send_from_directory, url_for, jsonify, Response, \
+    copy_current_request_context
 import flask
 import image_recognition as im
 from werkzeug.utils import secure_filename
 import os
+from openai import OpenAI
+from config import DEEPSEEK_API_KEY
 # from app import index_map,UPLOAD_FOLDER
 UPLOAD_FOLDER = 'static/uploads'# 原始图片上传到的相对路径
 directory = 'uploads/' # 识别结果存储的相对路径
@@ -21,6 +24,15 @@ index_map = {
     10: "北极贝",
     11: "毛钳"
 }
+client = OpenAI(api_key=f"{DEEPSEEK_API_KEY}", base_url="https://api.deepseek.com")
+def chat_with_deepseek(content):
+    messages = [{"role":"system","content":"，{#### 使用说明\n- 输入 ：一段识别到的贝类信息。\n- 输出 ：直接解释所有贝类的信息，不要说无关的话。解释完一种贝类注意换行（注意让网页能正常解析你的换行符）}"},{"role": "user", "content": content}]
+    response = client.chat.completions.create(
+        model="deepseek-chat",
+        stream=True,
+        messages=messages
+    )
+    return response
 @rec.route('/', methods=['POST', 'GET'])
 def hello_world():
     if flask.request.method == 'GET':
@@ -85,14 +97,13 @@ def process(filename):
         d = 'static/' + directory
         allfiles = [d + f for f in sub_results]
         allfiles.append(d + filename)
-        print(filename, directory, sub_results, full_path, recognition_results, allfiles, "\n")
         return render_template('image_display.html',
                                file_name=filename,
                                base_path=directory,
                                sub_results=sub_results,
                                image_path=full_path,
                                image_info=recognition_results,
-                               files_to_delete=allfiles
+                               files_to_delete=allfiles,
                                )
     except Exception as e:
         return render_template('image_display.html', image_data=None, error=str(e))
@@ -120,3 +131,22 @@ def delete_files():
             print(f"Failed to delete {file_path}. Reason: {e}")
     return jsonify({"status": "success"})
 
+@rec.route('/get_api_info')
+def get_api_info():
+    recognition_results = flask.session.get('recognition_results', [])
+    # 模拟生成流式响应
+    def generate():
+        # 获取会话中的识别结果
+        # 提取并去重种类名称
+        unique_classes = set()
+        for result in recognition_results:
+            class_name = result.split()[0]
+            unique_classes.add(class_name)
+        unique_classes = sorted(unique_classes)
+        # 获取流式 API 响应
+        send = "此模型针对此图像识别出了以下结果：" + ",".join(unique_classes) + "\n请你分别介绍一下这几种贝类。"
+        api_response = chat_with_deepseek(send)
+        for chunk in api_response:
+            if chunk.choices[0].delta.content:
+                yield chunk.choices[0].delta.content
+    return Response(generate(), mimetype='text/plain')

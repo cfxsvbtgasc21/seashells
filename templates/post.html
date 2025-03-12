@@ -1,20 +1,53 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="post-content">
-    <h1 style="text-align: center; color: white;">发帖</h1>
-    <form action="{{ url_for('blog.post') }}" method="post">
-        {{ form.hidden_tag() }}  <!-- 添加此行以包含 CSRF 隐藏字段 -->
+<div class="post-container">
+    <div class="post-form-wrapper">
+        <h1>创建新帖子</h1>
+        <form action="{{ url_for('blog.post') }}" method="post" class="post-form">
+            {{ form.hidden_tag() }}
 
-        <div class="form-group">
-            <label for="title">标题：</label>
-            <input type="text" id="title" name="title" required>
-        </div>
-        <div class="form-group">
-            <label for="content">内容：</label>
-            <textarea id="content" name="content" rows="5" required></textarea>
-        </div>
-        <button type="submit" class="post-button">提交</button>
-    </form>
+            <div class="form-control">
+                <label for="title">标题</label>
+                <input type="text" id="title" name="title" placeholder="请输入标题" required>
+            </div>
+
+            <div class="form-control textarea-control">
+                <label for="content">内容</label>
+                <textarea id="content" name="content" placeholder="分享你的见解..." rows="8" required></textarea>
+            </div>
+
+            <div class="form-footer">
+                <p class="char-count">剩余字符：<span id="remaining">1000</span></p>
+                <button type="submit" class="submit-btn">发布帖子</button>
+            </div>
+        </form>
+    </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const textarea = document.getElementById('content');
+        const remainingSpan = document.getElementById('remaining');
+        const maxChars = 1000;
+
+        textarea.addEventListener('input', function() {
+            const currentLength = textarea.value.length;
+            const remaining = maxChars - currentLength;
+            remainingSpan.textContent = remaining;
+
+            if (remaining < 0) {
+                textarea.style.borderColor = '#ff6b6b';
+                remainingSpan.style.color = '#ff6b6b';
+            } else {
+                textarea.style.borderColor = '#4d96ff';
+                remainingSpan.style.color = '#666';
+            }
+
+            if (remaining < 100 && remaining >= 0) {
+                remainingSpan.style.color = '#ff9f43';
+            }
+        });
+    });
+</script>
 {% endblock %}

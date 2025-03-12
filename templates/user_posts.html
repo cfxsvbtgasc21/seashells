@@ -3,27 +3,42 @@
 {% block title %}我的帖子 - 海洋贝类智能识别系统{% endblock %}
 
 {% block content %}
-<div class="box5">
-    <h1>我的帖子</h1>
+<div class="user-posts-container">
+    <h1 class="page-title">我的帖子</h1>
+
     {% if posts %}
-    <div class="posts-section">
+    <div class="posts-grid">
         {% for post in posts %}
-        <div class="post-item">
-            <h2>{{post.title}}</h2>
-            <p>作者：{{ post.author.username }}</p>
-            <p>创建时间：{{ post.created_at }}</p>
-            <p>内容：{{ post.content }}</p>
-            <div class="post-actions">
-                <form action="{{ url_for('blog.delete_post', post_id=post.id) }}" method="post">
-                    <button type="submit" onclick="return confirm('确定要删除这个帖子吗？')">删除</button>
+        <div class="post-card">
+            <div class="post-header">
+                <h2 class="post-title">{{ post.title }}</h2>
+                <p class="post-meta">
+                    <span class="author">作者：{{ post.author.username }}</span>
+                    <span class="created-at">创建时间：{{ post.created_at }}</span>
+                </p>
+            </div>
+            <div class="post-body">
+                <p class="post-content">{{ post.content }}</p>
+            </div>
+            <div class="post-footer">
+                <form action="{{ url_for('blog.delete_post', post_id=post.id) }}" method="post" class="delete-form">
+                    <button type="submit" class="delete-btn" onclick="return confirm('确定要删除这个帖子吗？')">删除</button>
                 </form>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <div class="no-posts">
-        <p>您还没有发布任何帖子。</p>
+    <div class="empty-state">
+        <div class="empty-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+        </div>
+        <h2 class="empty-title">暂无帖子</h2>
+        <p class="empty-description">您还没有发布任何帖子，点击下方按钮开始创作吧！</p>
+        <a href="{{ url_for('blog.post') }}" class="create-btn">创建新帖子</a>
     </div>
     {% endif %}
 </div>

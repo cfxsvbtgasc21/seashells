@@ -89,19 +89,9 @@ a {
     -ms-user-drag: none;
     user-drag: none;
 }
-.forum-link {
-    font-size: 20px;
-    color: #FFFFFF;
-    font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
-    transition: color 0.3s;
-    text-decoration: none;
-}
 
-.forum-link:hover {
-    color: #dddddd;
-    text-decoration: underline;
-}
 
+/* 优化后的论坛界面样式 */
 .forum-content {
     width: 80%;
     margin: 0 auto;
@@ -111,35 +101,74 @@ a {
     padding: 20px;
 }
 
-/* 发帖内容样式 */
-.post-content {
-    width: 80%;
-    margin: 0 auto;
-    padding-top: 100px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    padding: 20px;
+/* 论坛标题样式 */
+.forum-content h1 {
+    text-align: center;
+    color: white;
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 帖子列表样式 */
-.post-list {
-    margin-top: 20px;
+/* 论坛描述样式 */
+.forum-content p {
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    margin-bottom: 30px;
+    opacity: 0.9;
 }
 
+/* 帖子列表标题样式 */
+.post-list h2 {
+    color: #32c832;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 帖子项样式 */
 .post-item {
     background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 15px;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.post-item h3 {
+.post-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 帖子标题样式 */
+.post-item h3 a {
     color: #32c832;
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.post-item h3 a:hover {
+    color: #29a629;
+    text-decoration: underline;
+}
+
+/* 帖子作者和时间样式 */
+.post-item p.author-date {
+    color: #dddddd;
+    font-size: 14px;
     margin-bottom: 10px;
 }
 
-.post-item p {
+/* 帖子内容样式 */
+.post-item p.content {
     color: white;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px;
 }
 
 /* 发帖按钮样式 */
@@ -147,16 +176,38 @@ a {
     background-color: #32c832;
     color: white;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
+    padding: 12px 30px;
+    font-size: 18px;
+    border-radius: 8px;
     cursor: pointer;
     margin-top: 20px;
+    transition: all 0.3s ease;
+    font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
 }
 
 .post-button:hover {
     background-color: #29a629;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
+
+/* 未登录时的发帖按钮样式 */
+.post-button.disabled {
+    background-color: #888;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* 没有帖子时的提示样式 */
+.post-list p {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 30px;
+    opacity: 0.8;
+}
+
+
 
 
 .box1 {
@@ -763,4 +814,469 @@ h2 {
 
 .rg_layout #td_sub {
     padding-left: 150px;
+}
+
+/* password_reset.html */
+.password-reset-form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 400px;
+    max-width: 90%;
+    margin: 150px auto;
+    font-family: Arial, sans-serif;
+}
+
+.password-reset-form h2 {
+    color: #3498db;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-section label {
+    display: block;
+    margin-bottom: 8px;
+    color: #3498db;
+    font-weight: 500;
+}
+
+.form-section input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-section input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.form-section button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.form-section button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.link-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.link-section h4 {
+    color: #7f8c8d;
+    margin-top: 15px;
+}
+
+.link-section h4 a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.link-section h4 a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.error-notification {
+    color: #e74c3c;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    display: none;
+}
+
+/*verify_code.html*/
+.verify-code-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.verify-code-form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+}
+
+.verify-code-form h2 {
+    color: #3498db;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-section label {
+    display: block;
+    margin-bottom: 8px;
+    color: #3498db;
+    font-weight: 500;
+}
+
+.form-section input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-section input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.form-section button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.form-section button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.form-section button.disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.link-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.link-section a {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.link-section a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+/*post.html*/
+.post-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.post-form-wrapper {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+    margin: 0 auto;
+}
+
+.post-form-wrapper h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.post-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.form-control label {
+    display: block;
+    margin-bottom: 8px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.form-control input,
+.form-control textarea {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
+    outline: none;
+    border-color: #4d96ff;
+    box-shadow: 0 0 0 3px rgba(77, 150, 255, 0.2);
+}
+
+.textarea-control textarea {
+    resize: none;
+    height: 200px;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.char-count {
+    font-size: 14px;
+    color: #666;
+}
+
+.submit-btn {
+    background-color: #4d96ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.submit-btn:hover {
+    background-color: #3a80e0;
+    transform: translateY(-2px);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+/*user_posts.html*/
+.user-posts-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.post-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.post-header {
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.post-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    font-size: 20px;
+}
+
+.post-meta {
+    display: flex;
+    flex-direction: column;
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.author {
+    margin-bottom: 5px;
+}
+
+.created-at {
+    margin-bottom: 5px;
+}
+
+.post-body {
+    padding: 20px;
+}
+
+.post-content {
+    line-height: 1.6;
+    color: #34495e;
+}
+
+.post-footer {
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+    text-align: right;
+}
+
+.delete-form {
+    display: inline-block;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.empty-icon svg {
+    color: #3498db;
+    margin-bottom: 20px;
+}
+
+.empty-title {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.empty-description {
+    color: #7f8c8d;
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+
+.create-btn {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.create-btn:hover {
+    background-color: #2980b9;
+}
+
+@media (max-width: 768px) {
+    .posts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .post-card {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .post-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: translateY(-3px);
+    }
+}
+
+
+.api-message {
+    margin-top: 20px;
+}
+
+.message-card {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 15px;
+    border: 1px solid #e9ecef;
+}
+
+
+.loading-spinner {
+    display: none;
+    margin: 10px 0;
+}
+
+.spinner-border {
+    width: 2rem;
+    height: 2rem;
+    border-width: 0.25em;
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
 }
