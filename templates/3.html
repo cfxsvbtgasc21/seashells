@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}作者信息{% endblock %}
+
+{% block content %}
+<div class="forum-content">
+    <h1 style="color: #4CAF50; text-align: center;">作者信息</h1>
+    <p style="color: #4CAF50; text-align: center;">本系统由以下作者共同开发：</p>
+
+    <!-- 作者列表 -->
+    <div class="post-list">
+        <h2 style="color: #4CAF50;">开发团队</h2>
+        <div class="post-item">
+            <ul style="list-style-type: disc; padding-left: 20px; margin-bottom: 2rem;">
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">廉文煜</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">高育骐</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">厚旭泰</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">陈劭涵</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 感谢语 -->
+    <div class="post-list">
+        <h2 style="color: #4CAF50;">感谢语</h2>
+        <div class="post-item">
+            <p class="content" style="color: #ffffff; text-align: justify;">
+                感谢您的使用！如果您有任何建议或问题，请随时联系我们。
+            </p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

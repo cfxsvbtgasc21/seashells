@@ -17,7 +17,7 @@
         </div>
 
         <div class="forum-section">
-            <a href="{{ url_for('blog.show_blog') }}" class="forum-link"><p4>论&nbsp;&nbsp;坛</p4></a>
+            <a href="{{ url_for('blog.show_blog') }}"><p4>论&nbsp;&nbsp;坛</p4></a>
         </div>
 
         <div class="user-section">
@@ -31,19 +31,19 @@
         <p4>登&nbsp;&nbsp;录</p4>
     </a>
     {% endif %}
-</div>
+    </div>
     </div>
     <div class="box3">
-        <a href="./index.html">
+        <a href="{{ url_for('index') }}">
             <img src="{{url_for('static',filename='images/0.png')}}" width=170px height=50px>
         </a>
-        <a href="./1.html">
+        <a href="{{ url_for('introduction') }}">
             <img src="{{url_for('static',filename='images/1.png')}}" width=170px height=50px>
         </a>
-        <a href="./2.html">
+        <a href="{{ url_for('user_help') }}">
             <img src="{{url_for('static',filename='images/2.png')}}" width=170px height=50px>
         </a>
-        <a href="./3.html">
+        <a href="{{ url_for('authors') }}">
             <img src="{{url_for('static',filename='images/3.png')}}" width=170px height=50px>
         </a>
     </div>

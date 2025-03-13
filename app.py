@@ -94,9 +94,20 @@ def before_request():
 @app.context_processor
 def my_context_processor():
     return {"user":getattr(g, 'user', None) }
+
+@app.route('/introduction', methods=['POST', 'GET'])
+def introduction():
+    return render_template('1.html')
+@app.route('/user_help', methods=['POST', 'GET'])
+def user_help():
+    return render_template('2.html')
+@app.route('/authors', methods=['POST', 'GET'])
+def authors():
+    return render_template('3.html')
 @app.route('/', methods=['POST', 'GET'])
 def index():
     return render_template('index.html')
+
 if __name__ == '__main__':
     app.run(port=5000, host='0.0.0.0')  # 生产环境禁用debug模式
 

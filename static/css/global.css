@@ -42,16 +42,17 @@ a {
     margin-left: 20px;
 }
 .forum-section {
-    margin: 0 30px;
+     display: flex;
+    /* 将左右间距减小到15px */
+   margin-left: auto;
+    align-items: center;
 }
 
 .user-section {
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 15px; /* 将右边距减小到15px */
 }
-
-
 .box0 p1 {
     font-size: 40px;
     opacity: 1;

@@ -1,11 +1,8 @@
-import flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, DateField, RadioField, TextAreaField
-from wtforms import SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError
 from models import User
 from datetime import datetime
-import re
 import redis
 
 class RegisterForm(FlaskForm):
@@ -45,10 +42,10 @@ class RegisterForm(FlaskForm):
         Length(max=500, message="简介不能超过500字")
     ])
 
-    checkcode = StringField(validators=[
-        DataRequired(message="验证码不能为空"),
-        Length(min=4, max=4, message="验证码必须为4位")
-    ])
+    # checkcode = StringField(validators=[
+    #     DataRequired(message="验证码不能为空"),
+    #     Length(min=4, max=4, message="验证码必须为4位")
+    # ])
 
     # 注意：email-code需要转换为Python合法的字段名
     email_code = StringField(

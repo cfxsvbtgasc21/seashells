@@ -2,7 +2,7 @@ HOST = '127.0.0.1'
 PORT = '3306'
 DATABASE = 'flask_app'
 USERNAME = 'root'
-PASSWORD = '620302'
+PASSWORD = ''
 DB_URI= 'mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8'.format(USERNAME, PASSWORD, HOST, PORT, DATABASE)
 SQLALCHEMY_DATABASE_URI =DB_URI
 
@@ -14,4 +14,4 @@ MAIL_USERNAME = '1050446772@qq.com'
 MAIL_DEFAULT_SENDER = '1050446772@qq.com'
 MAIL_CHARSET = 'utf8'
 
-# DEEPSEEK_API_KEY = ''
+DEEPSEEK_API_KEY = ''

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}用户帮助{% endblock %}
+
+{% block content %}
+<div class="forum-content">
+    <h1 style="color: #4CAF50; text-align: center;">用户帮助</h1>
+    <p style="color: #4CAF50; text-align: center;">在这里，您可以找到关于海洋贝类智能识别系统的使用指南和常见问题解答。</p>
+
+    <!-- 使用指南 -->
+    <div class="post-list">
+        <h2 style="color: #4CAF50;">使用指南</h2>
+        <div class="post-item">
+            <ol style="list-style-type: decimal; padding-left: 20px; margin-bottom: 2rem;">
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">注册/登录账号</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">上传清晰贝类图片</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">查看识别结果</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">可在论坛交流经验</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 常见问题 -->
+    <div class="post-list">
+        <h2 style="color: #4CAF50;">常见问题</h2>
+        <div class="post-item">
+            <p class="content" style="color: #ffffff; text-align: justify;">
+                <strong>Q: 如何提高识别准确率？</strong>
+                <br>
+                A: 请确保上传的图片清晰、完整，并且贝类主体占据图片的大部分区域。
+            </p>
+            <p class="content" style="color: #ffffff; text-align: justify; margin-top: 15px;">
+                <strong>Q: 为什么识别结果不准确？</strong>
+                <br>
+                A: 可能是因为图片质量不佳或贝类特征不明显。请尝试上传不同角度的图片。
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,40 +1,66 @@
-<!DOCTYPE html>
-<html>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+{% extends "base.html" %}
 
-<head>
-	<title>海洋贝类智能识别系统</title>
-	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/global.css')}}">
-	<link rel="icon" type="image/x-icon" href="{{url_for('static',filename='images/LOGO.ico')}}">
+{% block title %}海洋贝类智能识别系统介绍{% endblock %}
 
-	<style type="text/css">
+{% block content %}
+<div class="forum-content">
+    <h1 style="color: #4CAF50; text-align: center;">海洋贝类智能识别系统介绍</h1>
+    <p style="color: #4CAF50; text-align: center;">在这里，您可以了解海洋贝类智能识别系统的详细信息。</p>
 
-	</style>
+    <!-- 系统介绍 -->
+    <div class="post-list">
+        <h2 style="color: #4CAF50;">系统介绍</h2>
+        <div class="post-item">
+            <p class="content" style="color: #ffffff; text-align: justify;">
+                海洋贝类智能识别系统是一个基于先进人工智能技术开发的平台，旨在帮助用户快速、准确地识别各种海洋贝类。无论是海滩漫步时的偶然发现，还是专业研究中的标本鉴定，本系统都能为您提供强大的支持。
+            </p>
+        </div>
+    </div>
 
-	<script src="{{url_for('static',filename='js/index.js')}}"></script>
-</head>
+    <!-- 系统功能 -->
+    <div class="post-list">
+        <h2 style="color: #4CAF50;">系统功能</h2>
+        <div class="post-item">
+            <ul style="list-style-type: disc; padding-left: 20px; margin-bottom: 2rem;">
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">图像上传：支持多格式图片上传</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">智能识别：基于深度学习的识别算法</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">详细信息：识别结果含分类、特征等</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">论坛交流：发帖交流经验</li>
+            </ul>
+        </div>
+    </div>
 
+    <!-- 技术特点 -->
+    <div class="post-list">
+        <h2 style="color: #4CAF50;">技术特点</h2>
+        <div class="post-item">
+            <p class="content" style="color: #ffffff; text-align: justify;">
+                本系统采用yolov8构建识别模型，经过大量专业标注数据训练，具备高识别准确率。同时，系统优化了算法和界面，确保快速响应和良好体验。
+            </p>
+        </div>
+    </div>
 
-<body oncontextmenu=self.event.returnValue=false onselectstart="return false">
-	<div class="box0">
-		<a><img src="{{url_for('static',filename='images/LOGO.ico')}}" align="center" width= 45.6px height= 42.65px ></a>
-		<h1>海&nbsp;洋&nbsp;贝&nbsp;类&nbsp;智&nbsp;能&nbsp;识&nbsp;别&nbsp;系&nbsp;统</h1>
-	</div>
-	<div class="box1">
-	</div>
-	<div class="box2">
-		<h1>
-		欢&nbsp;迎&nbsp;使&nbsp;用&nbsp;海&nbsp;洋&nbsp;贝&nbsp;类
-		<br>
-		智&nbsp;&nbsp;能&nbsp;&nbsp;识&nbsp;&nbsp;别&nbsp;&nbsp;系&nbsp;&nbsp;统
-		</h1>
-		<a><img src="{{url_for('static',filename='images/LOGO.ico')}}" align="center" width= 91.2px height= 85.3px ></a>
-	</div>
-	<div class="box5">
-		<h1>作者：廉文煜 高育骐 厚旭泰 陈劭涵（排名不分先后）</h1>
-	</div>
+    <!-- 使用方法 -->
+    <div class="post-list">
+        <h2 style="color: #4CAF50;">使用方法</h2>
+        <div class="post-item">
+            <ol style="list-style-type: decimal; padding-left: 20px; margin-bottom: 2rem;">
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">注册/登录账号</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">上传清晰贝类图片</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">查看识别结果</li>
+                <li style="font-size: 16px; margin-bottom: 10px; color: #ffffff;">可在论坛交流经验</li>
+            </ol>
+        </div>
+    </div>
 
-</body>
-
-</html>
+    <!-- 开发团队 -->
+    <div class="post-list">
+        <h2 style="color: #4CAF50;">开发团队</h2>
+        <div class="post-item">
+            <p class="content" style="color: #ffffff; text-align: justify;">
+                本系统致力于融合专业领域知识与前沿技术，为用户提供专业、便捷的贝类识别工具。
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
